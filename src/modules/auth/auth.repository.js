@@ -6,8 +6,8 @@ export const findByEmail = (email) => {
   return User.findOne({ email })
 }
 
-export const createUser = ({ email, password }) => {
-  return User.create({ email, password })
+export const createUser = ({ name, email, password, deviceId }) => {
+  return User.create({ name, email, password, deviceId })
 }
 
 export const updateUserVerification = async (email, isVerified) => {

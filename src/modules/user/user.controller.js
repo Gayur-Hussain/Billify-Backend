@@ -1,7 +1,26 @@
-import * as service from './user.service.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
+import { getSubscriptionStatus, getDaysLeft } from '../../utils/subscription.js'
 
-export const getUsers = async (req, res) => {
-  const users = await service.getUsers()
-  res.status(200).json(new ApiResponse(users, 'Users retrieved successfully'))
+export const getMe = async (req, res) => {
+  const user = req.user
+  
+  const status = getSubscriptionStatus(user)
+  const daysLeft = getDaysLeft(user, status)
+
+  res.status(200).json(
+    new ApiResponse(
+      {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        deviceId: user.deviceId,
+        status,
+        daysLeft,
+        trialEndsAt: user.trialEndsAt,
+        subscriptionEndsAt: user.subscriptionEndsAt
+      },
+      'User profile retrieved successfully'
+    )
+  )
 }
