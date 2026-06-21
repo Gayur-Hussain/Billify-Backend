@@ -6,6 +6,10 @@ const app = express()
 
 app.use(express.json())
 
+app.get('/ping', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date() })
+})
+
 app.use('/api', routes)
 
 app.use(errorMiddleware)
